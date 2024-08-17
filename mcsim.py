@@ -9,7 +9,7 @@ from typing import Callable, Generator
 
 __all__ = [
     'InputVariable',
-    'check_calculation'
+    'check_calculation',
     'run',
     'run_to_csv',
 ]
