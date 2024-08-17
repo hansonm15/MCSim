@@ -1,3 +1,5 @@
+'''Module to run a Monte Carlo Simulation'''
+
 from collections import namedtuple
 from dataclasses import dataclass
 from itertools import product
@@ -101,7 +103,7 @@ def check_calculation(calculation: Callable, inputs: list[InputVariable]) -> dic
 
 
 def run(calculation: Callable, inputs: list[InputVariable], tests: int = 1) -> list[dict[str, float]]:
-    """Runs all cases for given number of tests.
+    """Runs all cases for given number of tests. Results are saved locally and can be turned into a Polars or Pandas DataFrame.
 
     Args:
         calculation (Callable): User-Defined function which returns dictionary as {OutputVarName: Value} 
@@ -116,7 +118,7 @@ def run(calculation: Callable, inputs: list[InputVariable], tests: int = 1) -> l
     ]
 
 def run_to_csv(filepath: Path, calculation: Callable, inputs: list[InputVariable], tests: int=1) -> None:
-    """Runs all cases for given number of tests. Inputs and outputs will be written to the given filepath
+    """Runs all cases for given number of tests. Inputs and outputs will be written to the given filepath in csv format.
 
     Args:
         filepath (Path): Filepath save location.
@@ -138,20 +140,28 @@ def run_to_csv(filepath: Path, calculation: Callable, inputs: list[InputVariable
 
 
 if __name__=='__main__':
-    def fun(var1, var2):
+    def func(var1: float, var2: float) -> dict[str, float]:
+        """Test function
+
+        Args:
+            var1 (float): Input variable 1
+            var2 (float): Input variable 2
+
+        Returns:
+            dict[str, float]: Output dictionary in form {VariableName: Value}
+        """        
         return {'out1': var1/var2, 'out2': var1 + var2}
     
+    # Inputs
     inputs = [
-        InputVariable('var1', [1, 2, 3], 0),
-        InputVariable('var2', [10, 11, 12], [1, 2, 3])
+        InputVariable('var1', [1, 2, 3], 0),                # Case Values
+        InputVariable('var2', [10, 11, 12], [1, 2, 3])      # Case Variables
     ]
     
+    # Run MCS and save to file in csv format
     filepath = Path(__file__).parent.joinpath('test_file.csv')
+    run_to_csv(filepath=filepath, calculation=func, inputs=inputs, tests=10)
     
-    run_to_csv(filepath=filepath, calculation=fun, inputs=inputs, tests=10)
-    
-    r = run(calculation=fun, inputs=inputs)
-    
+    # Run MCS and store results locally
+    r = run(calculation=func, inputs=inputs, tests=10)
     print(r)
-    
-    
