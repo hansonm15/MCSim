@@ -154,8 +154,9 @@ if __name__=='__main__':
     
     # Inputs
     inputs = [
-        InputVariable('var1', [1, 2, 3], 0),                # Case Values
-        InputVariable('var2', [10, 11, 12], [1, 2, 3])      # Case Variables
+        InputVariable('var1', [1, 2, 3], 0),                # Case Value
+        InputVariable('var2', [10, 11, 12], [1, 2, 3]),     # Case Variable
+        InputVariable('var3', [100], 10),                   # Variable
     ]
     
     # Run MCS and save to file in csv format
