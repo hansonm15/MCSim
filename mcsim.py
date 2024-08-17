@@ -20,7 +20,7 @@ CaseVariable = namedtuple('CaseVariable', ['name', 'avg', 'std_dev'], )
 class InputVariable:
     """Input variable to be used in the calculations.
     
-    Parameters:
+    Attributes:
         name (str): Variable name, case-sensitive match to calculation inputs.
         case_avg (list[float]): List of averages used for each case. If only one case pass a singular list for cases (ex. [100])
         case_std_dev (list[float] | float | int): List of standard deviations used for each case. If standard deviation is the same (or zero for case values), use a float or int value.
